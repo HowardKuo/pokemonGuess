@@ -14,6 +14,7 @@ $(document).ready(function() {
 
 //FUNCTIONS================================================================================================
 
+//Start of game function. Will reset the guesses and word.
 function startGame() {
     remainingGuesses = 12;
     storedSelections = [];
@@ -22,13 +23,14 @@ function startGame() {
     displayedWord = '_'.repeat(currentWord.length);
     $('.currentWordGuess').text(displayedWord.split('').join(' '));
     $('.winCount').text(totalWins);
+    $('.playerGuesses').text("Letters Guessed: ")
     $('.totalGuessesLeft').text(remainingGuesses);
     $('.pokemonImage').html('<img src="assets/images/pokeball.png" width=200px />');
 }
 
+//End of game function. Will only appear when game is over by either correct guess or running out of guesses. See below for if statement
 function endGame() {
-    var playAgain = "Click here to play again";
-    $('.playerGuesses').text(playAgain);
+    $('.playerGuesses').text("Click here to play again");
     $('.playerGuesses').on("click", function() {
         startGame();
         $('.playerGuesses').off("click");
@@ -36,13 +38,12 @@ function endGame() {
     $('.pokemonImage').html('<img src="assets/images/' + currentWord + '.png" width=200px />');
 }
 
-//JAVASCRIPT==============================================================================================
-
+//Function that is used for onkeyup events
 document.onkeyup = function(event) {
     keySelection = event.key.toLowerCase();
     if (storedSelections.indexOf(keySelection) === -1) {
         storedSelections.push(keySelection);
-        $('.playerGuesses').text(storedSelections.join(' '));
+        $('.playerGuesses').text("Letters Guessed: " + storedSelections.join(' '));
         if (currentWord.indexOf(keySelection) !== -1) {
             for (var i = 0; i < currentWord.length; i++) {
                 if (currentWord.charAt(i) === keySelection) {
